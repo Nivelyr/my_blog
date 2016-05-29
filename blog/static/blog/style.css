@@ -38,9 +38,7 @@ body {
 .current {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 12px;
-<<<<<<< HEAD
-=======
-    }
+}
     
 .mail_form {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -51,5 +49,4 @@ body {
 #h1_form {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 27px;
->>>>>>> dcf29f1e7a29bd59a6fc903ef2060c5ed6594dec
 }
