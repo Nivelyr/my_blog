@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post, Comment
+from .models import Post
 from django.core.paginator import Paginator, EmptyPage, \
     PageNotAnInteger
 from django.views.generic import ListView
@@ -20,14 +20,11 @@ def post_share(request, post_id):
             # ... send email
             post_url = request.build_absolute_uri(
                 post.get_absolute_url())
-            subject = '{} ({}) recommends you reading "{}"'.format(cd['name'],
-                                                                   cd['email'],
-                                                                   post.title)
-            message = 'Read "{}" at {}\n\n{}\'s comments: {}'.format(post.title,
-                                                                     post_url,
-                                                                     cd['name'],
-                                                                     cd[
-                                                                         'comments'])
+            subject = '{} ({}) recommends you reading "{}"'.format(
+                cd['name'], cd['email'], post.title)
+            message = 'Read "{}" at {}\n\n{}\'s comments: {}'.format(
+                post.title, post_url, cd['name'], cd['comments'])
+            # TODO: remove hard code
             send_mail(subject, message, 'admin@myblog.com', [cd['to']])
             sent = True
         else:
@@ -37,6 +34,8 @@ def post_share(request, post_id):
                                                     'sent': sent})
 
 # TODO: remove one of them "post_list"
+
+
 def post_list(request):
     object_list = Post.published.all()
     paginator = Paginator(object_list, 3)  # 3 posts in each page
@@ -63,11 +62,9 @@ def post_list(request):
 
 
 def post_detail(request, year, month, day, post):
-    post = get_object_or_404(Post, slug=post,
-                             status='published',
-                             publish__year=year,
-                             publish__month=month,
-                             publish__day=day)
+    post = get_object_or_404(
+        Post, slug=post, status='published', publish__year=year,
+        publish__month=month, publish__day=day)
     # List of active comments for this post
     comments = post.comments.filter(active=True)
 
@@ -83,11 +80,8 @@ def post_detail(request, year, month, day, post):
             new_comment.save()
     else:
         comment_form = CommentForm()
-    return render(request,
-                  'blog/post/detail.html',
-                  {'post': post,
-                   'comments': comments,
-                   'comment_form': comment_form})
+    return render(request, 'blog/post/detail.html', {
+        'post': post, 'comments': comments, 'comment_form': comment_form})
 
 
 class PostListView(ListView):

@@ -1,14 +1,14 @@
 #content {
     color: black;
     width: 70%;
-    float:left;
+    float: left;
     font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
 }
 
 #sidebar {
     color: #3D4351;
-    width:15%;
-    float:right;
+    width: 15%;
+    float: right;
     margin-left: 20px;
     margin-bottom: 20px;
     border-left: 3px solid navy;
@@ -37,4 +37,4 @@ body {
 .current {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 12px;
-    }
+}
