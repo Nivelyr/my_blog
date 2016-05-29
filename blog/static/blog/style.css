@@ -20,13 +20,14 @@ title {
 }
 
 h1 {
-  font-size: 60px; }
+  font-size: 60px;
+}
   
 body {
   font-family: "Open Sans", sans-serif;
   font-weight: 300;
   color: rgba(28, 54, 83, 0.6);
-  }
+}
   
 .date {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -37,4 +38,18 @@ body {
 .current {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 12px;
+<<<<<<< HEAD
+=======
+    }
+    
+.mail_form {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
+    width:15%;
+}
+
+#h1_form {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 27px;
+>>>>>>> dcf29f1e7a29bd59a6fc903ef2060c5ed6594dec
 }
