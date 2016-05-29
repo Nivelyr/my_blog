@@ -4,7 +4,7 @@ from .models import Post, Comment
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug', 'author', 'publish', 'status')
-    list_filter = ('status', 'created', 'publish', 'author')
+    list_filter = ('status', 'created_at', 'publish', 'author')
     search_fields = ('title', 'body')
     prepopulated_fields = {'slug': ('title',)}
     raw_id_fields = ('author',)
@@ -16,8 +16,8 @@ admin.site.register(Post, PostAdmin)
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'post', 'created', 'active')
-    list_filter = ('active', 'created', 'updated')
+    list_display = ('name', 'email', 'post', 'created_at', 'active')
+    list_filter = ('active', 'created_at', 'updated_at')
     search_fields = ('name', 'email', 'body')
 
 
