@@ -1,11 +1,35 @@
 #content {
-    background-color: yellow;
+    color: black;
+    width: 70%;
+    float:left;
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
 }
 
 #sidebar {
-    background-color: yellow;
+    color: #3D4351;
+    width:15%;
+    float:right;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border-left: 3px solid navy;
+    border-bottom: 3px solid navy;
 }
 
 title {
-    background-color: yellow;
+    color: green;
+}
+
+h1 {
+  font-size: 60px; }
+  
+body {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+  color: rgba(28, 54, 83, 0.6);
+  }
+  
+.date {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 13px;
+    color: goldenrod;
 }
