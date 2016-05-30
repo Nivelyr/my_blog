@@ -7,8 +7,14 @@
 </head>
 <body>    
     <div id="content">{% block content %}{% endblock %}</div>
-    {% block abra %}{% endblock %}
-    <div id="header"><span class="logo">Bookmarks</span></div>
+    <div id="header">
+    </div>
+    <div>
+        <form class='logo' action='login/' method="post">
+            {% csrf_token %}
+            <input type="submit" class="btn" value="LOG IN" name="mybtn">
+        </form>
+    </div>
     <div id="sidebar">
         <h2>Koss` blog</h2>
             <p>Let`s fun!</p>
