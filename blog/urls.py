@@ -8,7 +8,7 @@ urlpatterns = [
         views.post_detail, name='post_detail'),
     url(r'^(?P<post_id>\d+)/share/$', views.post_share, name='post_share'),
     #url(r'^login/$', views.user_login, name='login'),
-    url(r'^login/$', 'blog:login', name='login'),
+    url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', name='logout'),
     url(r'^logout-then-login/$',
         'django.contrib.auth.views.logout_then_login', name='logout_then_login'),
