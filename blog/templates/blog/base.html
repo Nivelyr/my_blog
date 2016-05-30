@@ -5,20 +5,10 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'blog/style.css' %}" />
 </head>
-<body>
-    
-    <div id="content">
-        {% block content %}
-        {% endblock %}
-    </div>
-    <div id="login">
-        {% block login %}
-        {% endblock %}
-    </div>
-    <div id="header">
-        <span class="logo">Bookmarks</span>
-        
-    </div>
+<body>    
+    <div id="content">{% block content %}{% endblock %}</div>
+    {% block abra %}{% endblock %}
+    <div id="header"><span class="logo">Bookmarks</span></div>
     <div id="sidebar">
         <h2>Koss` blog</h2>
             <p>Let`s fun!</p>
