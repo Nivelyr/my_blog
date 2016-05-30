@@ -93,3 +93,4 @@ ENV/
 .gitignore
 .idea/
 *.sqlite3
+local.py
