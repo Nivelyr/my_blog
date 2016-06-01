@@ -3,12 +3,12 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'blog/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/st.css' %}" />
 </head>
 <body>    
     <div id="content">{% block content %}{% endblock %}</div>
     <div id="header">
-        <span class="logo">Your profile</span>
+        <span class="logo">Koss` blog</span>
         {% if request.user.is_authenticated %}
             <ul class="menu">
                 <li {% if section == "dashboard" %}class="selected"{% endif %}>
@@ -38,9 +38,9 @@
         </form>
     </div>
     -->
-    <div id="sidebar">
+    <div id="footer">
         <h2>Koss` blog</h2>
-            <p>Let`s fun!</p>
+            <p>2016</p>
     </div>
 </body>
 </html>
