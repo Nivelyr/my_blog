@@ -10,34 +10,27 @@
     <div id="header">
         <span class="logo">Koss` blog</span>
         {% if request.user.is_authenticated %}
-            <ul class="menu">
-                <li {% if section == "dashboard" %}class="selected"{% endif %}>
-                    <a href="{% url 'blog:dashboard' %}">My dashboard</a>
-                </li>
-                <li {% if section == "images" %}class="selected"{% endif %}>
-                    <a href="#">Favourite</a>
-                </li>
+            <ul class="dropdown">
+                <button class="dropbtn">Menu</button>
+                <div class="dropdown-content">
+                    {% if section == "dashboard" %}class="selected"{% endif %}>
+                        <a href="{% url 'blog:dashboard' %}">My dashboard</a>
+                    {% if section == "images" %}class="selected"{% endif %}>
+                        <a href="#">Favourite</a>
+                    
             </ul>
         {% endif %}
         
         <span class="user">
             {% if request.user.is_authenticated %}
                 Hello {{ request.user.first_name }},
-                <a href="{% url "blog:logout" %}">Logout</a>
+                <a href="{% url 'blog:logout' %}">Log-out</a>
             {% else %}
-                <a href="{% url "blog:login" %}">Log-in</a>
+                <a href="{% url 'blog:login' %}">Log-in</a>
             {% endif %}
         </span>
-
+        
     </div>
-    <!--
-    <div>
-        <form class='logo' action='login/' method="post">
-            {% csrf_token %}
-            <input type="submit" class="btn" value="LOG IN" name="mybtn">
-        </form>
-    </div>
-    -->
     <div id="footer">
         <h2>Koss` blog</h2>
             <p>2016</p>
