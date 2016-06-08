@@ -18,6 +18,7 @@ LOGIN_URL = reverse_lazy('login')
 LOGOUT_URL = reverse_lazy('logout')
 
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -36,13 +37,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
+    #'django.contrib.admin',
+    #'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'django.contrib.admin',
+    'django.contrib.auth',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -131,3 +134,6 @@ EMAIL_HOST_USER = 'oleg.petrenko.ig@gmail.com'
 EMAIL_HOST_PASSWORD = 'dbrjhbcnfqntghbyfqvys8cbvdjksd'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
