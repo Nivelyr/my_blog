@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'blog',
     'django.contrib.admin',
     'django.contrib.auth',
+    #'social.apps.django_app.default',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -137,3 +138,8 @@ EMAIL_USE_TLS = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'blog.authentication.EmailAuthBackend',
+)

@@ -7,17 +7,29 @@
 </head>
 <body>    
     <div id="content">{% block content %}{% endblock %}</div>
+    
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">
+                    {{ message|safe }}
+                        <a href="." class="close">✖</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
     <div id="header">
         <span class="logo">Koss` blog</span>
         {% if request.user.is_authenticated %}
             <ul class="dropdown">
                 <button class="dropbtn">Menu</button>
                 <div class="dropdown-content">
-                    {% if section == "dashboard" %}class="selected"{% endif %}>
+                    <li class="hidden">{% if section == "dashboard" %}class="selected"{% endif %}></li>
                         <a href="{% url 'blog:dashboard' %}">My dashboard</a>
-                    {% if section == "images" %}class="selected"{% endif %}>
+                    <li class="hidden">{% if section == "images" %}class="selected"{% endif %}></li>
                         <a href="#">Favourite</a>
-                    
+                </div>
             </ul>
         {% endif %}
         
@@ -29,7 +41,6 @@
                 <a href="{% url 'blog:login' %}">Log-in</a>
             {% endif %}
         </span>
-        
     </div>
     <div id="footer">
         <h2>Koss` blog</h2>
