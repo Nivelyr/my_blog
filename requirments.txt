@@ -1,0 +1,4 @@
+Python==2.7.10
+Django==1.9.7
+Pytz==2016.4
+python-social-auth==0.2.19

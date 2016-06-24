@@ -94,3 +94,8 @@ ENV/
 .idea/
 *.sqlite3
 local.py
+*.pyc
+*.db
+.sass-cache/
+.coverage
+.tox

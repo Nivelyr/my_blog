@@ -1,40 +1,40 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from .models import Post, Profile
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import ListView
+from django.views.generic import ListView, View
 from .forms import EmailPostForm, CommentForm
 from django.core.mail import send_mail
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 
 
 @login_required
 def dashboard(request):
     return render(request, 'blog/dashboard.html', {'section': 'dashboard'})
     
-
-def user_login(request):
+@login_required
+def edit(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(username=cd['username'], password=cd['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponse('Authenticated ''successfully')
-                else:
-                    return HttpResponse('Disabled account')
-            else:
-                return HttpResponse('Invalid login')
+        user_form = UserEditForm(instance=request.user, data=request.POST)
+        profile_form = ProfileEditForm(
+        instance=request.user.profile, data=request.POST, files=request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Profile updated successfully')
+        else:
+            messages.error(request, 'Error updating your profile')
     else:
-        form = LoginForm()
-    return render(request, 'blog/login.html', {'form': form})
+        user_form = UserEditForm(instance=request.user)
+        profile_form = ProfileEditForm(instance=request.user.profile)
+    return render(request, 'account/edit.html', {'user_form': user_form,
+                                                 'profile_form': profile_form})
 
-
+        
 def post_share(request, post_id):
     # Retrieve post by id
     post = get_object_or_404(Post, id=post_id, status='published')
@@ -45,31 +45,26 @@ def post_share(request, post_id):
         if form.is_valid():
             cd = form.cleaned_data
             post_url = request.build_absolute_uri(post.get_absolute_url())
-            subject = '{} ({}) recommends you reading "{}"'.format(cd['name'], cd['email'], post.title)
-            message = 'Read "{}" at {}\n\n{}\'s comments: {}'.format(post.title, post_url, cd['name'], cd['comments'])
+            subject = '{} ({}) recommends you reading "{}"'.format(cd['name'],
+                                                                   cd['email'],
+                                                                   post.title)
+            message = 'Read "{}" at {}\n\n{}\'s comments: {}'.format(post.title,
+                                                                     post_url,
+                                                                     cd['name'],
+                                                                     cd['comments'])
             send_mail(subject, message, 'admin@myblog.com', [cd['to']])
             sent = True
     else:
         form = EmailPostForm()
-    return render(request, 'blog/post/share.html', {'post': post, 'form': form, 'sent': sent})
+    return render(request, 'blog/post/share.html', {'post': post,
+                                                    'form': form,
+                                                    'sent': sent})
 
-def post_list(request):
-    object_list = Post.published.all()
-    paginator = Paginator(object_list, 3) # 3 posts in each page
-    page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer deliver the first page
-        posts = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range deliver last page of results
-        posts = paginator.page(paginator.num_pages)
-    return render(request, 'blog/post/list.html', {'page': page, 'posts': posts})
 
 
 def post_detail(request, year, month, day, post):
-    post = get_object_or_404(Post, slug=post, status='published', publish__year=year, publish__month=month, publish__day=day)
+    post = get_object_or_404(Post, slug=post, status='published',
+                             publish__year=year, publish__month=month, publish__day=day)
     # List of active comments for this post
     comments = post.comments.filter(active=True)
 
@@ -85,7 +80,9 @@ def post_detail(request, year, month, day, post):
             new_comment.save()
     else:
         comment_form = CommentForm()
-    return render(request, 'blog/post/detail.html', {'post': post, 'comments': comments, 'comment_form': comment_form})
+    return render(request, 'blog/post/detail.html', {'post': post,
+                                                     'comments': comments,
+                                                     'comment_form': comment_form})
 
 
 class PostListView(ListView):
@@ -111,19 +108,49 @@ def register(request):
         user_form = UserRegistrationForm()
     return render(request, 'blog/register.html', {'user_form': user_form})
 
-@login_required
-def edit(request):
+#authorization
+def login_view(request):
     if request.method == 'POST':
-        user_form = UserEditForm(instance=request.user, data=request.POST)
-        profile_form = ProfileEditForm(
-        instance=request.user.profile, data=request.POST, files=request.FILES)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, 'Profile updated successfully')
-        else:
-            messages.error(request, 'Error updating your profile')
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(username=cd['username'], password=cd['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return redirect('blog:dashboard')
+                else:
+                    form = LoginForm()
+                    return render(request, 'registration/login.html', locals())
+            else:
+                form = LoginForm()
+                return render(request, 'registration/login.html', locals())
     else:
-        user_form = UserEditForm(instance=request.user)
-        profile_form = ProfileEditForm(instance=request.user.profile)
-    return render(request, 'account/edit.html', {'user_form': user_form, 'profile_form': profile_form})
+        form = LoginForm()
+        return render(request, 'registration/login.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return render_to_response('registration/logout.html')
+
+def logout_then_login_view():
+    return redirect('/login/')
+
+def password_change(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return render(request, 'registration/password_change_form.html',  {'form': form})
+    else:
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        return render(request, 'registration/password_change_form.html',  {'form': form})
+
+def password_change_done(request):
+    return render(request, 'registration/password_change_done.html')
+
+def password_reset(request):
+    return password_reset(request, template_name='registration/password_reset_form.html',
+                          email_template_name='registration/password_reset_email.html',) 

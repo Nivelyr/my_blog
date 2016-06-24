@@ -37,16 +37,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    #'django.contrib.admin',
-    #'django.contrib.auth',
+    'django.contrib.admin',
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog',
-    'django.contrib.admin',
-    'django.contrib.auth',
     #'social.apps.django_app.default',
+    'blog',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -130,6 +128,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+DEFAULT_FROM_EMAIL = 'oleg.petrenko.ig@gmail.com'
+SERVER_EMAIL = 'oleg.petrenko.ig@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'oleg.petrenko.ig@gmail.com'
 EMAIL_HOST_PASSWORD = 'dbrjhbcnfqntghbyfqvys8cbvdjksd'
