@@ -17,10 +17,15 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.views import password_reset, password_reset_done
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^blog/', include('blog.urls', namespace='blog', app_name='blog')),
+    url(r'^password/reset/$', password_reset, name='password_reset'),
+    url(r'^password/reset/done/$', password_reset_done,
+        name='password_reset_done'),
+
     #url('social-auth/', include('social.apps.django_app.urls', namespace='social')),
 ]
 
