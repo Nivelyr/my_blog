@@ -76,6 +76,7 @@ body.login {
 .login#content {
     padding: 20px 20px 0;
 }
+
 p.login {
     background: #fff;
     padding: 5px 20px 0;
@@ -130,6 +131,7 @@ p.login {
 .login .password-reset-link {
     text-align: center;
 }
+
 .logo {
     width: 10%;
     background: #fff;
@@ -137,6 +139,7 @@ p.login {
     height: 10px;
     float: right;
 }
+
 .menu {
     width: 70%;
     height: 40px;
@@ -149,6 +152,7 @@ p.login {
     box-shadow: 0 1px 1px snow;
     color: snow; 
 }
+
 .user {
     width: 10%;
     background: #fff;
